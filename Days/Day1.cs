@@ -36,7 +36,7 @@ namespace Days
 
         public string Solve()
         {
-            var partOneSolution = "1"; //SolvePartOne();
+            var partOneSolution = SolvePartOne();
             var partTwoSolution = SolvePartTwo();
 
             return $"Day1 Part One solution is: {partOneSolution} {Environment.NewLine}Day1 Part Two solution is: {partTwoSolution} ";
@@ -76,11 +76,8 @@ namespace Days
             int overallTotal = 0;
 
             foreach (var line in Input)
-            // for (int i = 0; i < Input.Count; i++)
             {
                 int lineTotal = FindLineTotalIncludingKeyStrings(line);
-
-                Console.WriteLine($"Line : {line}, LineTotal: {lineTotal}");
 
                 overallTotal += lineTotal;
             }
@@ -108,13 +105,6 @@ namespace Days
             var secondDigit = GetValueAsInt(maxValues.MaxBy(x => x.Value).Key);
 
             var charConcat = string.Concat(firstDigit, secondDigit);
-
-            if (minValues.Min(x => x.Value) == maxValues.Max(x => x.Value))
-            {
-                charConcat = firstDigit.ToString();
-            }
-
-            // Console.WriteLine(charConcat);
 
             if (!Int32.TryParse(charConcat, out int lineTotal))
             {
