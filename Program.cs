@@ -1,4 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
+
+/*
+    Go to %AppData%\Roaming\NuGet
+
+    Comment line from nuget config
+*/
+
 using Days;
 
 bool cont = true;
