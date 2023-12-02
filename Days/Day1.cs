@@ -1,12 +1,7 @@
-using System.Linq;
-using System.Numerics;
-using Helpers;
-
 namespace Days
 {
-    public class Day1
+    public class Day1 : Day
     {
-        public List<string> Input;
         private List<string> keyStrings = new List<string>()
         {
             "one",
@@ -29,9 +24,9 @@ namespace Days
             "9",
         };
 
-        public Day1()
+        public Day1() : base("/Inputs/Day1.txt")
         {
-            Input = new DataAccessor("Inputs/Day1.txt").GetInputAsListStrings();
+            
         }
 
         public string Solve()
