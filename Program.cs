@@ -10,7 +10,6 @@ using Helpers;
 
 bool cont = true;
 string outPut;
-var inputHelper = new InputHelper();
 
 while (cont)
 {
@@ -31,7 +30,7 @@ while (cont)
         }
         else
         {
-            outPut = inputHelper.GetDayResponse(input);
+            outPut = InputHelper.GetDayResponse(input);
         }
     }
     catch (Exception e)

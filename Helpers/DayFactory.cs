@@ -1,10 +1,11 @@
 using Days;
+using Microsoft.VisualBasic;
 
 namespace Helpers
 {
     public class DayFactory
     {
-        public IDay CreateDay(string input)
+        public static IDay CreateDay(string input)
         {
             string fullyQualifiedClassName = "Days.Day" + input;
 
@@ -12,7 +13,8 @@ namespace Helpers
             
             try
             {
-                return Activator.CreateInstance(t) as IDay;
+                return Activator.CreateInstance(t) as IDay
+                    ?? throw new Exception();
             }
             catch
             {

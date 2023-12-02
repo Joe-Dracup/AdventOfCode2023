@@ -4,13 +4,13 @@ namespace Helpers
 {
     public class InputHelper
     {
-        public string GetDayResponse(string input)
+        public static string GetDayResponse(string input)
         {
             string outPut;
 
             try
             {
-                var day = new DayFactory().CreateDay(input);
+                var day = DayFactory.CreateDay(input);
                 outPut = day.Solve();
             }
             catch (DayDoesNotExistException)
