@@ -14,8 +14,15 @@ namespace Helpers
             {
                 throw new DayDoesNotExistException($"Type {fullyQualifiedClassName} does not exist");
             }
-            
-            return Activator.CreateInstance(t) as IDay;
+
+            try
+            {
+                return Activator.CreateInstance(t) as IDay;
+            }
+            catch
+            {
+                throw new Exception($"Error Creating Instance Of Type {fullyQualifiedClassName}");
+            }
         }
     }
 }
