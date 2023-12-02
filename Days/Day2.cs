@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Days
 {
     public class Day2 : Day
@@ -23,7 +21,7 @@ namespace Days
             var partOneSolution = GetSumOfIdsOfImpossibleGames(12, 13, 14);
             var partTwoSolution = GetSumOfPowerOfLowestNumberOfCubes();
 
-            return $"Day1 Part One solution is: {partOneSolution} {Environment.NewLine}Day1 Part Two solution is: {partTwoSolution} ";
+            return $"Day2 Part One solution is: {partOneSolution} {Environment.NewLine}Day2 Part Two solution is: {partTwoSolution} ";
         }
 
         private int GetSumOfPowerOfLowestNumberOfCubes()

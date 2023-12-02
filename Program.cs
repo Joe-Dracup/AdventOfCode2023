@@ -7,31 +7,38 @@
 */
 
 using Days;
+using Helpers;
 
 bool cont = true;
+string outPut;
+var inputHelper = new InputHelper();
+
 while (cont)
 {
-    Console.WriteLine("Enter the number of the day that you want to solve, press any other key to end");
-
-    var input = Console.ReadKey();
-
-    Console.WriteLine(Environment.NewLine);
-
-    string outPut;
-
-    switch (input.KeyChar)
+    Console.WriteLine("Enter the number of the day that you want to solve, type \"end\" to end the program\n");
+    try
     {
-        case '1':
-            outPut = new Day1().Solve();
-            break;
-        case '2':
-            outPut = new Day2().Solve();
-            break;
-        default:
-            outPut = "Goodbye!";
+        var input = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(input))
+        {
+            throw new ApplicationException("Please input a day");
+        }
+
+        if (input.Equals("end", StringComparison.CurrentCultureIgnoreCase))
+        {
+            outPut = " \nGoodbye!";
             cont = false;
-            break;
+        }
+        else
+        {
+            outPut = inputHelper.GetDayResponse(input);
+        }
+    }
+    catch (Exception e)
+    {
+        outPut = e.Message;
     }
 
-    Console.WriteLine(outPut + Environment.NewLine);
+    Console.WriteLine("\n" + outPut + "\n");
 }
