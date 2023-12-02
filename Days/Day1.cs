@@ -53,12 +53,12 @@ namespace Days
 
         private static int FindLineTotal(string line)
         {
-            var firstDigit = line.First(c => Int32.TryParse(c.ToString(), out int _));
-            var lastDigit = line.Last(c => Int32.TryParse(c.ToString(), out int _));
+            var firstDigit = line.First(c => int.TryParse(c.ToString(), out int _));
+            var lastDigit = line.Last(c => int.TryParse(c.ToString(), out int _));
 
             var charConcat = string.Concat(firstDigit, lastDigit);
 
-            if (!Int32.TryParse(charConcat, out int lineTotal))
+            if (!int.TryParse(charConcat, out int lineTotal))
             {
                 throw new ApplicationException("your total does not parse!");
             }
@@ -101,7 +101,7 @@ namespace Days
 
             var charConcat = string.Concat(firstDigit, secondDigit);
 
-            if (!Int32.TryParse(charConcat, out int lineTotal))
+            if (!int.TryParse(charConcat, out int lineTotal))
             {
                 throw new ApplicationException("your total does not parse!");
             }
@@ -111,7 +111,7 @@ namespace Days
 
         private static int GetValueAsInt(string key)
         {
-            if (Int32.TryParse(key, out int value))
+            if (int.TryParse(key, out int value))
             {
                 return value;
             }

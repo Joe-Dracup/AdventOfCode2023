@@ -91,7 +91,7 @@ namespace Days
             {
                 var numAsString = splitStrings[i * 2];
 
-                if (Int32.TryParse(numAsString, out var number))
+                if (int.TryParse(numAsString, out var number))
                 {
                     var cubeResult = new CubeResult(splitStrings[i * 2 + 1], number);
                     cubeResults.Add(cubeResult);
@@ -109,7 +109,7 @@ namespace Days
         {
             string stringId = line[..line.IndexOf(END_OF_GAMEID_NOTIFIER)].Replace("Game ", "");
 
-            if (Int32.TryParse(stringId, out var id))
+            if (int.TryParse(stringId, out var id))
             {
                 return id;
             }
