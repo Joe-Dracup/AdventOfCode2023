@@ -1,15 +1,17 @@
+using Models;
+
 namespace Days
 {
     public class Day2 : Day
     {
-        string END_OF_GAMEID_NOTIFIER = ":";
-        
-        List<string> JUNKCHARS = new List<string>()
-        {
+        readonly string END_OF_GAMEID_NOTIFIER = ":";
+
+        readonly List<string> JUNKCHARS =
+        [
             ": ",
             ";",
             ","
-        };
+        ];
 
         public Day2() : base("/Inputs/Day2.txt")
         {
@@ -105,7 +107,7 @@ namespace Days
 
         private int GetLineId(string line)
         {
-            string stringId = line.Substring(0, line.IndexOf(END_OF_GAMEID_NOTIFIER)).Replace("Game ", "");
+            string stringId = line[..line.IndexOf(END_OF_GAMEID_NOTIFIER)].Replace("Game ", "");
 
             if (Int32.TryParse(stringId, out var id))
             {
@@ -113,23 +115,6 @@ namespace Days
             }
 
             throw new ApplicationException($"could not parse the id: {stringId} of line {line}");
-        }
-    }
-
-    public class CubeResult
-    {
-        public string CubeType { get; set; }
-        public int NumberOfCubes { get; set; }
-
-        public CubeResult(string cubeType, int numberOfCubes)
-        {
-            CubeType = cubeType;
-            NumberOfCubes = numberOfCubes;
-        }
-
-        public override string ToString()
-        {
-            return $"CubeType: {CubeType} Number: {NumberOfCubes}";
         }
     }
 }

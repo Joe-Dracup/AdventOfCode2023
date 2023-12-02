@@ -2,8 +2,8 @@ namespace Days
 {
     public class Day1 : Day
     {
-        private List<string> keyStrings = new List<string>()
-        {
+        private readonly List<string> keyStrings =
+        [
             "one",
             "two",
             "three",
@@ -22,7 +22,7 @@ namespace Days
             "7",
             "8",
             "9",
-        };
+        ];
 
         public Day1() : base("/Inputs/Day1.txt")
         {
@@ -85,12 +85,12 @@ namespace Days
             Dictionary<string, int> minValues = FindMinValues(line);
             Dictionary<string, int> maxValues = FindMaxValues(line);
 
-            if (!minValues.Any())
+            if (minValues.Count == 0)
             {
                 throw new ApplicationException("found no matching values on line: " + line);
             }
 
-            if (!maxValues.Any())
+            if (maxValues.Count == 0)
             {
                 throw new ApplicationException("found no matching values on line: " + line);
             }
@@ -109,7 +109,7 @@ namespace Days
             return lineTotal;
         }
 
-        private int GetValueAsInt(string key)
+        private static int GetValueAsInt(string key)
         {
             if (Int32.TryParse(key, out int value))
             {
@@ -151,7 +151,7 @@ namespace Days
                 .Select(sub => new { value = line.IndexOf(sub), key = sub })
                 .Where(i => i.value >= 0);
 
-            Dictionary<string, int> dict = new Dictionary<string, int>();
+            Dictionary<string, int> dict = [];
 
             foreach (var found in founds)
             {
@@ -167,12 +167,10 @@ namespace Days
                 .Select(sub => new { value = line.LastIndexOf(sub), key = sub })
                 .Where(i => i.value >= 0);
 
-            Dictionary<string, int> dict = new Dictionary<string, int>();
+            Dictionary<string, int> dict = [];
 
             foreach (var found in founds)
             {
-                // Console.WriteLine($"found.key {found.key} found.value {found.value}");
-
                 dict.Add(found.key, found.value);
             }
 

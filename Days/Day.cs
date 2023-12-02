@@ -2,14 +2,9 @@ using Helpers;
 
 namespace Days
 {
-    public abstract class Day : IDay
+    public abstract class Day(string inputPath) : IDay
     {
-        public List<string> Input;
-
-        public Day(string inputPath)
-        {
-            Input = new DataAccessor(inputPath).GetInputAsListStrings();
-        }
+        public List<string> Input = new DataAccessor(inputPath).GetInputAsListStrings();
 
         public abstract string Solve();
     }
