@@ -29,7 +29,7 @@ namespace Days
             
         }
 
-        public string Solve()
+        public override string Solve()
         {
             var partOneSolution = SolvePartOne();
             var partTwoSolution = SolvePartTwo();

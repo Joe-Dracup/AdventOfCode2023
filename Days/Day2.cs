@@ -16,7 +16,7 @@ namespace Days
 
         }
 
-        public string Solve()
+        public override string Solve()
         {
             var partOneSolution = GetSumOfIdsOfImpossibleGames(12, 13, 14);
             var partTwoSolution = GetSumOfPowerOfLowestNumberOfCubes();

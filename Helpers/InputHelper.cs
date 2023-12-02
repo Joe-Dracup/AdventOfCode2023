@@ -8,17 +8,16 @@ namespace Helpers
         {
             string outPut;
 
-            switch (input)
+            try
             {
-                case "1":
-                    outPut = new Day1().Solve();
-                    break;
-                case "2":
-                    outPut = new Day2().Solve();
-                    break;
-                default:
-                    throw new ApplicationException($"\"{input}\" is not a valid input!");
+                var day = new DayFactory().CreateDay(input);
+                outPut = day.Solve();
             }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"\"{input}\" is not a valid input!");
+            }
+            
             return outPut;
         }
     }

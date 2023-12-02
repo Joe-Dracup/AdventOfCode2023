@@ -2,7 +2,7 @@ using Helpers;
 
 namespace Days
 {
-    public abstract class Day
+    public abstract class Day : IDay
     {
         public List<string> Input;
 
@@ -10,5 +10,7 @@ namespace Days
         {
             Input = new DataAccessor(inputPath).GetInputAsListStrings();
         }
+
+        public abstract string Solve();
     }
 }
