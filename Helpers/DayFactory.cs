@@ -12,7 +12,7 @@ namespace Helpers
 
             if (t == null)
             {
-                throw new Exception("Type is null");
+                throw new DayDoesNotExistException($"Type {fullyQualifiedClassName} does not exist");
             }
             
             return Activator.CreateInstance(t) as IDay;
