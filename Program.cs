@@ -6,7 +6,6 @@
     Comment line from nuget config
 */
 
-using Days;
 using Helpers;
 
 bool cont = true;
