@@ -12,8 +12,73 @@ namespace Days
         public override string Solve()
         {
             int partOneSolution = GetSumOfPartNumbers();
-            int partTwoSolution = 0;
+            int partTwoSolution = GetSumOfGearRatios();
             return $"Day3 Part One solution is: {partOneSolution} {Environment.NewLine}Day3 Part Two solution is: {partTwoSolution} ";
+        }
+
+        private int GetSumOfGearRatios()
+        {
+            List<GearNumber> possibleGearNumbers = [];
+
+            for (int i = 0; i < Input.Count; i++)
+            {
+                Dictionary<string, int> numbersFromInput = GetNumbersFromInput(Input[i]);
+
+                possibleGearNumbers.AddRange(FindNumbersConnectedToGears(i, numbersFromInput));
+            }
+
+            var gearGroupings = possibleGearNumbers.GroupBy(x => new { x.GearLineIndex, x.GearIndexOnLine }).Where(x => x.Count() == 2);
+
+            int sumOfGearRatio = 0;
+
+            foreach (var gearGroup in gearGroupings)
+            {
+                int gearRatio = 1;
+
+                foreach (var gear in gearGroup)
+                {
+                    gearRatio *= gear.Number;
+                }
+
+                sumOfGearRatio += gearRatio;
+            }
+
+            return sumOfGearRatio;
+        }
+
+        private IEnumerable<GearNumber> FindNumbersConnectedToGears(int i, Dictionary<string, int> numbersFromInput)
+        {
+            List<GearNumber> gearNumbers = [];
+
+            foreach (var number in numbersFromInput)
+            {
+                int indexOfNumber = number.Value;
+                int startIndex = (indexOfNumber == 0) ? indexOfNumber : indexOfNumber - 1;
+                int length = GetLength(i, number.Key, indexOfNumber);
+
+                int aboveIndex = i - 1;
+
+                if (aboveIndex >= 0 && IsConnectedToGear(aboveIndex, number.Key, startIndex, length, out var aboveGearIndex))
+                {
+                    int.TryParse(number.Key, out var num);
+                    gearNumbers.Add(new GearNumber(num, aboveIndex, aboveGearIndex));
+                }
+
+                if (IsConnectedToGear(i, number.Key, startIndex, length, out var gearIndex))
+                {
+                    int.TryParse(number.Key, out var num);
+                    gearNumbers.Add(new GearNumber(num, i, gearIndex));
+                }
+
+                int belowIndex = i + 1;
+
+                if (belowIndex < Input.Count && IsConnectedToGear(belowIndex, number.Key, startIndex, length, out var belowGearIndex))
+                {
+                    int.TryParse(number.Key, out var num);
+                    gearNumbers.Add(new GearNumber(num, belowIndex, belowGearIndex));
+                }
+            }
+            return gearNumbers;
         }
 
         private int GetSumOfPartNumbers()
@@ -96,6 +161,21 @@ namespace Days
             return false;
         }
 
+        private bool IsConnectedToGear(int indexToSearch, string number, int startIndex, int length, out int gearIndex)
+        {
+            gearIndex = 0;
+
+            string searchString = Input[indexToSearch].Substring(startIndex, length);
+
+            if (searchString.Any(x => x == '*'))
+            {
+                gearIndex = startIndex + searchString.IndexOf('*');
+                return true;
+            }
+
+            return false;
+        }
+
         private Dictionary<string, int> GetNumbersFromInput(string line)
         {
             Dictionary<string, int> numbersFromInput = [];
@@ -119,6 +199,18 @@ namespace Days
             }
 
             return numbersFromInput;
+        }
+    }
+
+    public class GearNumber(int number, int gearLineIndex, int gearIndexOnLine)
+    {
+        public int Number { get; set; } = number;
+        public int GearLineIndex { get; set; } = gearLineIndex;
+        public int GearIndexOnLine { get; set; } = gearIndexOnLine;
+
+        public override string ToString()
+        {
+            return $"Number: {Number} GearLineIndex: {GearLineIndex} GearIndexOnLine: {GearIndexOnLine}\n";
         }
     }
 }
