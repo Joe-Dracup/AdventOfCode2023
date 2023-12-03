@@ -33,10 +33,8 @@ namespace Days
             return gearGroupings.Sum(gearGroup => gearGroup.Select(gear => gear.Number).Aggregate(1, (current, next) => current * next));
         }
 
-        private List<GearNumber> FindNumbersConnectedToGears(int i, Dictionary<string, int> numbersFromInput)
+        private IEnumerable<GearNumber> FindNumbersConnectedToGears(int i, Dictionary<string, int> numbersFromInput)
         {
-            List<GearNumber> gearNumbers = [];
-
             foreach (var number in numbersFromInput)
             {
                 int indexOfNumber = number.Value;
@@ -47,25 +45,24 @@ namespace Days
 
                 if (aboveIndex >= 0 && IsConnectedToGear(aboveIndex, number.Key, startIndex, length, out var aboveGearIndex))
                 {
-                    _ = int.TryParse(number.Key, out var num);
-                    gearNumbers.Add(new GearNumber(num, aboveIndex, aboveGearIndex));
+                    if (int.TryParse(number.Key, out var num))
+                        yield return new GearNumber(num, aboveIndex, aboveGearIndex);
                 }
 
                 if (IsConnectedToGear(i, number.Key, startIndex, length, out var gearIndex))
                 {
-                    _ = int.TryParse(number.Key, out var num);
-                    gearNumbers.Add(new GearNumber(num, i, gearIndex));
+                    if (int.TryParse(number.Key, out var num))
+                        yield return new GearNumber(num, i, gearIndex);
                 }
 
                 int belowIndex = i + 1;
 
                 if (belowIndex < Input.Count && IsConnectedToGear(belowIndex, number.Key, startIndex, length, out var belowGearIndex))
                 {
-                    _ = int.TryParse(number.Key, out var num);
-                    gearNumbers.Add(new GearNumber(num, belowIndex, belowGearIndex));
+                    if (int.TryParse(number.Key, out var num))
+                        yield return new GearNumber(num, belowIndex, belowGearIndex);
                 }
-            }
-            return gearNumbers;
+            };
         }
 
         private int GetSumOfPartNumbers()
@@ -82,10 +79,8 @@ namespace Days
             return partNumbers.Sum();
         }
 
-        private List<int> FindPartNumbers(int i, Dictionary<string, int> numbersFromInput)
+        private IEnumerable<int> FindPartNumbers(int i, Dictionary<string, int> numbersFromInput)
         {
-            List<int> partNumbers = [];
-
             foreach (var number in numbersFromInput)
             {
                 int indexOfNumber = number.Value;
@@ -96,23 +91,21 @@ namespace Days
 
                 if (aboveIndex >= 0 && IsPartNumber(aboveIndex, number.Key, startIndex, length, out var abovePartNumber))
                 {
-                    partNumbers.Add(abovePartNumber);
+                    yield return abovePartNumber;
                 }
 
                 if (IsPartNumber(i, number.Key, startIndex, length, out var partNumber))
                 {
-                    partNumbers.Add(partNumber);
+                    yield return partNumber;
                 }
 
                 int belowIndex = i + 1;
 
                 if (belowIndex < Input.Count && IsPartNumber(belowIndex, number.Key, startIndex, length, out var belowPartNumber))
                 {
-                    partNumbers.Add(belowPartNumber);
+                    yield return belowPartNumber;
                 }
             }
-
-            return partNumbers;
         }
 
         private int GetLength(int i, string number, int indexOfNumber)
