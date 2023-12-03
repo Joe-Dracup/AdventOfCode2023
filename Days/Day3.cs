@@ -47,13 +47,13 @@ namespace Days
 
                 if (aboveIndex >= 0 && IsConnectedToGear(aboveIndex, number.Key, startIndex, length, out var aboveGearIndex))
                 {
-                    int.TryParse(number.Key, out var num);
+                    _ = int.TryParse(number.Key, out var num);
                     gearNumbers.Add(new GearNumber(num, aboveIndex, aboveGearIndex));
                 }
 
                 if (IsConnectedToGear(i, number.Key, startIndex, length, out var gearIndex))
                 {
-                    int.TryParse(number.Key, out var num);
+                    _ = int.TryParse(number.Key, out var num);
                     gearNumbers.Add(new GearNumber(num, i, gearIndex));
                 }
 
@@ -61,7 +61,7 @@ namespace Days
 
                 if (belowIndex < Input.Count && IsConnectedToGear(belowIndex, number.Key, startIndex, length, out var belowGearIndex))
                 {
-                    int.TryParse(number.Key, out var num);
+                    _ = int.TryParse(number.Key, out var num);
                     gearNumbers.Add(new GearNumber(num, belowIndex, belowGearIndex));
                 }
             }
@@ -167,22 +167,18 @@ namespace Days
         {
             Dictionary<string, int> numbersFromInput = [];
 
-            bool cont = true;
-
-            while (cont)
+            while (true)
             {
                 Match match = Regex.Match(line, @"\d+");
 
                 if (!match.Success)
                 {
-                    cont = false;
+                    break;
                 }
-                else
-                {
-                    numbersFromInput.Add(match.Value, match.Index);
-                    var regex = new Regex(Regex.Escape(match.Value));
-                    line = regex.Replace(line, new string('.', match.Value.Length), 1);
-                }
+
+                numbersFromInput.Add(match.Value, match.Index);
+                var regex = new Regex(Regex.Escape(match.Value));
+                line = regex.Replace(line, new string('.', match.Value.Length), 1);
             }
 
             return numbersFromInput;
