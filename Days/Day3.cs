@@ -30,24 +30,10 @@ namespace Days
 
             var gearGroupings = possibleGearNumbers.GroupBy(x => new { x.GearLineIndex, x.GearIndexOnLine }).Where(x => x.Count() == 2);
 
-            int sumOfGearRatio = 0;
-
-            foreach (var gearGroup in gearGroupings)
-            {
-                int gearRatio = 1;
-
-                foreach (var gear in gearGroup)
-                {
-                    gearRatio *= gear.Number;
-                }
-
-                sumOfGearRatio += gearRatio;
-            }
-
-            return sumOfGearRatio;
+            return gearGroupings.Sum(gearGroup => gearGroup.Select(gear => gear.Number).Aggregate(1, (current, next) => current * next));
         }
 
-        private IEnumerable<GearNumber> FindNumbersConnectedToGears(int i, Dictionary<string, int> numbersFromInput)
+        private List<GearNumber> FindNumbersConnectedToGears(int i, Dictionary<string, int> numbersFromInput)
         {
             List<GearNumber> gearNumbers = [];
 
