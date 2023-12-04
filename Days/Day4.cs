@@ -51,13 +51,9 @@ namespace Days
             {
                 var numberOfWinningNumbers = GetWinningNumbers(card).Count();
 
-                // Console.WriteLine("winning numbers count: " + numberOfWinningNumbers);
-
                 if (numberOfWinningNumbers > 0)
                 {
                     var points = CalcPoints(numberOfWinningNumbers);
-
-                    // Console.WriteLine("points: " + points);
 
                     total += points;
                 }
