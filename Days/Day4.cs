@@ -7,8 +7,6 @@ namespace Days
 
         public override string Solve()
         {
-            Console.WriteLine();
-
             int partOneSolution = SumOfPoints();
             int partTwoSolution = GetSumOfReccuringCardPoints();
             return $"Day4 Part One solution is: {partOneSolution} {Environment.NewLine}Day4 Part Two solution is: {partTwoSolution} ";
@@ -25,8 +23,15 @@ namespace Days
             return totalCards;
         }
 
+        private Dictionary<int, int> memoizationCache = new Dictionary<int, int>();
+
         private int GetRecursiveWinningNumbers(int index)
         {
+            if (memoizationCache.TryGetValue(index, out int cachedValue))
+            {
+                return cachedValue;
+            }
+
             int addedScratchCards = 0;
 
             List<string> winningNumbers = GetWinningNumbers(Input[index]).ToList();
@@ -39,6 +44,8 @@ namespace Days
                     addedScratchCards += GetRecursiveWinningNumbers(index + i);
                 }
             }
+
+            memoizationCache[index] = addedScratchCards;
 
             return addedScratchCards;
         }
