@@ -23,7 +23,7 @@ namespace Days
             return totalCards;
         }
 
-        private Dictionary<int, int> memoizationCache = new Dictionary<int, int>();
+        private Dictionary<int, int> memoizationCache = [];
 
         private int GetRecursiveWinningNumbers(int index)
         {
