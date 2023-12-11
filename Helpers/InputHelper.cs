@@ -1,3 +1,4 @@
+using AdventOfCode2023.Attributes;
 using Days;
 
 namespace Helpers
@@ -6,12 +7,20 @@ namespace Helpers
     {
         public static string GetDayResponse(string input)
         {
-            string outPut;
+            string outPut = "";
 
             try
             {
                 var day = DayFactory.CreateDay(input);
-                outPut = day.Solve();
+
+                var incompleteAttributes = (IncompleteAttribute[])day.GetType().GetCustomAttributes(typeof(IncompleteAttribute), true);
+
+                if(incompleteAttributes.Length > 0)
+                {
+                    outPut += "this method is incomplete! \n";
+                }
+
+                outPut += day.Solve();
             }
             catch (DayDoesNotExistException)
             {

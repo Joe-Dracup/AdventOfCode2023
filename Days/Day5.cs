@@ -1,8 +1,9 @@
 using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
+using AdventOfCode2023.Attributes;
 
 namespace Days
 {
+    [Incomplete]
     public class Day5 : Day
     {
         List<FarmingMapper> farmingMappers = [];
@@ -25,7 +26,7 @@ namespace Days
 
             farmingMappers = SetupFarmingMappers();
 
-            farmingMappers.ForEach(Console.WriteLine);
+            // farmingMappers.ForEach(Console.WriteLine);
 
             List<BigInteger> penultimateResults = [];
 
@@ -52,14 +53,14 @@ namespace Days
 
         private BigInteger DoBits(BigInteger seed, string source)
         {
-            Console.WriteLine(seed + " " + source);
+            // Console.WriteLine(seed + " " + source);
 
             var retVal = seed;
             var relevantMapper = farmingMappers.Where(x => x.Source == source);
 
             if (relevantMapper.Any())
             {
-                relevantMapper.First().farmingMapperValues.ForEach(Console.WriteLine);
+                // relevantMapper.First().farmingMapperValues.ForEach(Console.WriteLine);
 
                 var possibleNewSeed = relevantMapper
                     .First()
@@ -72,7 +73,7 @@ namespace Days
                 var nextSeed =
                     possibleNewSeed != null ? possibleNewSeed.GetMappedValue(seed) : seed;
 
-                Console.WriteLine();
+                // Console.WriteLine();
 
                 retVal = DoBits(nextSeed, nextSource);
             }
