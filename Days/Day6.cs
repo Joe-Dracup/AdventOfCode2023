@@ -59,6 +59,7 @@ namespace Days
             for (var i = 0; i < time; i++)
             {
                 var distanceMoved = (time - i) * i;
+                
                 if (distanceMoved > distance)
                     numberOfWinningStrategies++;
             }
