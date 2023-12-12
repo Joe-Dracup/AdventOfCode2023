@@ -11,7 +11,9 @@ namespace Models
             Bid = bid;
         }
 
-        Dictionary<char, char> mappingValues = new Dictionary<char, char>
+        protected virtual Dictionary<char, char> GetMappingValues()
+        {
+            return new()
             {
                 {'A', 'A'}, {'K', 'B'}, {'Q', 'C'},
                 {'J', 'D'}, {'T', 'E'}, {'9', 'F'},
@@ -19,11 +21,14 @@ namespace Models
                 {'5', 'J'}, {'4', 'K'}, {'3', 'L'},
                 {'2', 'M'}
             };
+        }
 
         public string HandAsAlphabetical
         {
             get
             {
+                var mappingValues = GetMappingValues();
+
                 return string.Concat(Hand.Select(x => mappingValues[x].ToString()));
             }
         }
@@ -32,103 +37,108 @@ namespace Models
         {
             get
             {
-                if (IsFiveOfAKind())
-                {
-                    return 7;
-                }
-                else if (IsFourOfAKind())
-                {
-                    return 6;
-                }
-                else if (IsFullHouse())
-                {
-                    return 5;
-                }
-                else if (IsThreeOfAKind())
-                {
-                    return 4;
-                }
-                else if (IsTwoPair())
-                {
-                    return 3;
-                }
-                else if (IsOnePair())
-                {
-                    return 2;
-                }
-                else if (IsHighCard())
-                {
-                    return 1;
-                }
-
-                throw new Exception($"{Hand}: hand does not fit anything");
+                return GetScore(Hand);
             }
         }
 
-        private bool IsFiveOfAKind()
+        protected int GetScore(string hand)
         {
-            return Hand.Distinct().Count() == 1;
+            if (IsFiveOfAKind(hand))
+            {
+                return 7;
+            }
+            else if (IsFourOfAKind(hand))
+            {
+                return 6;
+            }
+            else if (IsFullHouse(hand))
+            {
+                return 5;
+            }
+            else if (IsThreeOfAKind(hand))
+            {
+                return 4;
+            }
+            else if (IsTwoPair(hand))
+            {
+                return 3;
+            }
+            else if (IsOnePair(hand))
+            {
+                return 2;
+            }
+            else if (IsHighCard(hand))
+            {
+                return 1;
+            }
+
+            throw new Exception($"{Hand}: hand does not fit anything");
         }
 
-        private bool IsFourOfAKind()
+        private bool IsFiveOfAKind(string hand)
         {
-            var distinctChars = Hand.Distinct().ToList();
+            return hand.Distinct().Count() == 1;
+        }
+
+        private bool IsFourOfAKind(string hand)
+        {
+            var distinctChars = hand.Distinct().ToList();
             return distinctChars.Count == 2
-                   && (Hand.Count(x => distinctChars[0] == x) == 1
-                   || Hand.Count(x => distinctChars[1] == x) == 1);
+                   && (hand.Count(x => distinctChars[0] == x) == 1
+                   || hand.Count(x => distinctChars[1] == x) == 1);
         }
 
-        private bool IsFullHouse()
+        private bool IsFullHouse(string hand)
         {
-            var distinctChars = Hand.Distinct().ToList();
+            var distinctChars = hand.Distinct().ToList();
 
             var charCounts = distinctChars.Select(x =>
             {
-                return Hand.Count(y => x == y);
+                return hand.Count(y => x == y);
             });
 
             return charCounts.All(x => x == 2 || x == 3);
         }
         
-        private bool IsThreeOfAKind()
+        private bool IsThreeOfAKind(string hand)
         {
-            var distinctChars = Hand.Distinct().ToList();
+            var distinctChars = hand.Distinct().ToList();
 
             var charCounts = distinctChars.Select(x =>
             {
-                return Hand.Count(y => x == y);
+                return hand.Count(y => x == y);
             });
 
             return distinctChars.Count == 3 && charCounts.All(x => x == 1 || x == 3);
         }
 
-        private bool IsTwoPair()
+        private bool IsTwoPair(string hand)
         {
-            var distinctChars = Hand.Distinct().ToList();
+            var distinctChars = hand.Distinct().ToList();
 
             var charCounts = distinctChars.Select(x =>
             {
-                return Hand.Count(y => x == y);
+                return hand.Count(y => x == y);
             });
 
             return distinctChars.Count == 3 && charCounts.All(x => x == 2 || x == 1);
         }
 
-        private bool IsOnePair()
+        private bool IsOnePair(string hand)
         {
-            var distinctChars = Hand.Distinct().ToList();
+            var distinctChars = hand.Distinct().ToList();
 
             var charCounts = distinctChars.Select(x =>
             {
-                return Hand.Count(y => x == y);
+                return hand.Count(y => x == y);
             });
 
             return distinctChars.Count == 4 && charCounts.All(x => x == 2 || x == 1);
         }
 
-        private bool IsHighCard()
+        private bool IsHighCard(string hand)
         {
-            return Hand.Distinct().Count() == 5;
+            return hand.Distinct().Count() == 5;
         }
     }
 }
